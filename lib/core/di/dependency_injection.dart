@@ -23,6 +23,7 @@ import 'package:tamago/features/schedule/data/repositories/anime_schedule_reposi
 import 'package:tamago/features/schedule/domain/repositories/anime_schedule_repository.dart';
 import 'package:tamago/features/schedule/domain/usecases/get_selected_schedule_anime.dart';
 import 'package:tamago/features/schedule/domain/usecases/get_streams_anime.dart';
+import 'package:tamago/features/schedule/domain/usecases/launch_streams_app.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -68,4 +69,5 @@ void configure() {
   getIt.registerLazySingleton<GetSelectedScheduleAnime>(
       () => GetSelectedScheduleAnime());
   getIt.registerLazySingleton<GetStreamsAnime>(() => GetStreamsAnime());
+  getIt.registerLazySingleton<LaunchStreamsApp>(() => LaunchStreamsApp());
 }

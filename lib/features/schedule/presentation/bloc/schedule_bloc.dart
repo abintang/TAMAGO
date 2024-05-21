@@ -1,11 +1,9 @@
 import 'dart:developer';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tamago/core/constants/app_colors.dart';
 import 'package:tamago/core/di/dependency_injection.dart';
 import 'package:tamago/features/schedule/domain/usecases/get_selected_schedule_anime.dart';
 import 'package:tamago/features/schedule/domain/usecases/get_streams_anime.dart';
+import 'package:tamago/features/schedule/domain/usecases/launch_streams_app.dart';
 import 'package:tamago/features/schedule/presentation/bloc/event/schedule_events.dart';
 import 'package:tamago/features/schedule/presentation/bloc/state/schedule_state.dart';
 
@@ -13,7 +11,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   ScheduleBloc() : super(InitialState()) {
     on<InitialScheduleAnime>(_onLoadInitialSchedule);
     on<LoadScheduleAnime>(_onLoadScheduleAnime);
-    on<OnClickedNotifications>(_onClickedNotiications);
+    on<OnClickedStreams>(_onClickedStreams);
   }
 
   void _onLoadInitialSchedule(
@@ -47,18 +45,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     }
   }
 
-  void _onClickedNotiications(
-      OnClickedNotifications event, Emitter<ScheduleState> emit) {
-    if (event.status == true) {
-      emit(GetStatusNotifications(
-          icons: Icons.notifications_active,
-          backgroundColor: AppColors.primaryColor,
-          iconColor: AppColors.secondaryColor));
-    } else {
-      emit(GetStatusNotifications(
-          icons: Icons.notification_add,
-          backgroundColor: AppColors.cardBackgroundColor,
-          iconColor: AppColors.primaryColor));
-    }
+  void _onClickedStreams(OnClickedStreams event, Emitter<ScheduleState> emit) {
+    getIt.get<LaunchStreamsApp>().launchAnotherApp(event.routeStreams);
   }
 }

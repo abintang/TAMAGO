@@ -5,9 +5,9 @@ import 'package:tamago/core/constants/constants.dart';
 import 'package:tamago/features/schedule/domain/entities/streams_entity.dart';
 import 'package:tamago/features/schedule/presentation/bloc/event/schedule_events.dart';
 import 'package:tamago/features/schedule/presentation/bloc/notifications_bloc.dart';
+import 'package:tamago/features/schedule/presentation/bloc/schedule_bloc.dart';
 import 'package:tamago/features/schedule/presentation/bloc/state/notifications_state.dart';
 import 'package:tamago/features/schedule/presentation/widgets/buttons.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 
 import '../../../../core/constants/app_colors.dart';
@@ -180,8 +180,10 @@ class AnimeScheduleCard extends StatelessWidget {
                                     child: InkWell(
                                       borderRadius: BorderRadius.circular(5),
                                       onTap: () {
-                                        launchAnotherApp(
-                                            streams[index].urlStreams);
+                                        context.read<ScheduleBloc>().add(
+                                            OnClickedStreams(
+                                                routeStreams:
+                                                    streams[index].urlStreams));
                                       },
                                       child: Center(
                                         child: Image.asset(
@@ -207,11 +209,5 @@ class AnimeScheduleCard extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-void launchAnotherApp(String? url) async {
-  if (!await launchUrl(Uri.parse(url!), mode: LaunchMode.externalApplication)) {
-    throw 'Could not launch ';
   }
 }
